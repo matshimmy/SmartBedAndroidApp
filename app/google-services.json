@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "930202918104",
+    "project_id": "hospitalbedcontrols",
+    "storage_bucket": "hospitalbedcontrols.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:930202918104:android:0d1643252834dbda454bad",
+        "android_client_info": {
+          "package_name": "com.example.hospitalbedcontrols"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "930202918104-4mic2bgadg61hm2k61imh5ea2ngl8uai.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB_oh8OTCjaa1xDrmzIPFn2uKaFlR1sgOw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "930202918104-4mic2bgadg61hm2k61imh5ea2ngl8uai.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

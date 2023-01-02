@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">HospitalBedControls</string>
+    <string name="control_name">Age: %1$s</string>
+</resources>
