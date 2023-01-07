@@ -1,9 +1,12 @@
 package com.example.hospitalbedcontrols
 
 import android.graphics.Color
+import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import com.example.hospitalbedcontrols.ble.Permissions
 import com.example.hospitalbedcontrols.databinding.ActivityBluetoothBinding
 import com.example.hospitalbedcontrols.model.BluetoothViewModel
 
@@ -11,12 +14,15 @@ class BluetoothActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBluetoothBinding
     private lateinit var viewModel: BluetoothViewModel
+    private lateinit var permissions: Permissions
 
+    @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBluetoothBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
+        permissions = Permissions(this)
         viewModel = ViewModelProvider(this).get(BluetoothViewModel::class.java)
         viewModel.connectionStatus.observe(this) { isConnected ->
             if (isConnected) {
@@ -43,7 +49,7 @@ class BluetoothActivity : AppCompatActivity() {
         }
 
         binding.toggleConnection.setOnClickListener {
-            viewModel.connectToBleDevice()
+            if (permissions.checkPermissions()) viewModel.connectToBleDevice()
         }
     }
 }
