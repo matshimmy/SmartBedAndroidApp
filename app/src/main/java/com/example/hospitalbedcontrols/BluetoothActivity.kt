@@ -10,7 +10,7 @@ import com.example.hospitalbedcontrols.model.BluetoothViewModel
 class BluetoothActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBluetoothBinding
-    val viewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
+    //val viewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
