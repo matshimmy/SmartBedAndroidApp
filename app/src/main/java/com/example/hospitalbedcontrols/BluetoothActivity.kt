@@ -6,8 +6,7 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
-import com.example.hospitalbedcontrols.ble.Permissions
-import com.example.hospitalbedcontrols.ble.bluetoothEnable
+import com.example.hospitalbedcontrols.ble.isBLEok
 import com.example.hospitalbedcontrols.databinding.ActivityBluetoothBinding
 import com.example.hospitalbedcontrols.model.BluetoothViewModel
 
@@ -15,7 +14,6 @@ class BluetoothActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBluetoothBinding
     private lateinit var viewModel: BluetoothViewModel
-    private lateinit var permissions: Permissions
 
     @RequiresApi(Build.VERSION_CODES.S)
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -23,15 +21,15 @@ class BluetoothActivity : AppCompatActivity() {
         binding = ActivityBluetoothBinding.inflate(layoutInflater)
         setContentView(binding.root)
         supportActionBar?.hide()
-        permissions = Permissions(this)
 
         viewModel = ViewModelProvider(this).get(BluetoothViewModel::class.java)
 
         viewModel.connectionStatus.observe(this) { isConnected ->
             if (isConnected) {
-                binding.toggleConnection.text = "Connected"
                 binding.toggleConnection.setBackgroundColor(Color.GREEN)
                 binding.toggleConnection.isEnabled = false
+                binding.toggleConnection.text = "Connected"
+                binding.toggleConnection.setTextColor(Color.WHITE)
             } else {
                 binding.toggleConnection.text = "Connect"
                 binding.toggleConnection.setBackgroundColor(Color.RED)
@@ -52,7 +50,7 @@ class BluetoothActivity : AppCompatActivity() {
         }
 
         binding.toggleConnection.setOnClickListener {
-            if (permissions.checkPermissions() && bluetoothEnable(this, viewModel))
+            if (isBLEok(this, viewModel))
                 viewModel.connectToBleDevice()
         }
     }
