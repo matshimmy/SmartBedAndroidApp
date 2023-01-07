@@ -22,9 +22,7 @@ class RegisterActivity : AppCompatActivity() {
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.textView.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-
+            finish()
         }
 
         binding.registerButton.setOnClickListener{

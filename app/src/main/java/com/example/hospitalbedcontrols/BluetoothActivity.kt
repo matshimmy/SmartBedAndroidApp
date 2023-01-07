@@ -1,39 +1,43 @@
 package com.example.hospitalbedcontrols
 
-import android.content.Intent
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import androidx.lifecycle.ViewModelProvider
 import com.example.hospitalbedcontrols.databinding.ActivityBluetoothBinding
-import com.example.hospitalbedcontrols.databinding.ActivitySettingsBinding
-import com.google.firebase.auth.FirebaseAuth
+import com.example.hospitalbedcontrols.model.BluetoothViewModel
 
 class BluetoothActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityBluetoothBinding
-    private lateinit var whichPage: Intent
-
+    val viewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityBluetoothBinding.inflate(layoutInflater)
         setContentView(binding.root)
-//        setContentView(R.layout.activity_bluetooth)
+        supportActionBar?.hide()
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.to_home -> {
-                    launchHome()
+                    finish()
                     true
                 }
 
                 else -> false
             }
         }
+
+        binding.toggleConnection.setOnClickListener {
+            if (isBTConnected()) {
+                binding.toggleConnection.text = "Connected"
+                binding.toggleConnection.setBackgroundColor(Color.GREEN)
+            }
+        }
     }
 
-
-    private fun launchHome() {
-        whichPage = Intent(this, MainActivity::class.java)
-        startActivity(whichPage)
+    private fun isBTConnected(): Boolean {
+        return true
     }
 }

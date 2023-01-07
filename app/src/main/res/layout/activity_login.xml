@@ -7,28 +7,25 @@
     tools:context=".LoginActivity">
 
 
-    <ImageView
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/imageView"
+        style="@style/MoonStyle"
         android:layout_width="120dp"
         android:layout_height="186dp"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/logo_placeholder" />
+        app:srcCompat="@drawable/ic_baseline_bedtime_24"/>
 
     <TextView
         android:id="@+id/textView4"
+        style="@style/HeaderTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="190dp"
 
         android:text="Hospital Bed Controls"
-
-        android:textAlignment="center"
-        android:textColor="@color/dark_grey"
-        android:textSize="45sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -36,14 +33,11 @@
 
     <TextView
         android:id="@+id/textView5"
+        style="@style/BodyTextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="320dp"
         android:text="Sign In"
-        android:textAlignment="center"
-        android:textColor="@color/dark_grey"
-        android:textSize="25sp"
-        android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -113,11 +107,11 @@
 
     <TextView
         android:id="@+id/textView"
+        style="@style/TextStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:text="Not Registered Yet? Sign Up !"
-        android:textColor="@color/dark_grey"
+        android:text="Not Registered Yet? Sign Up!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.5"

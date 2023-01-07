@@ -34,15 +34,16 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
-    <ImageButton
+    <androidx.appcompat.widget.AppCompatImageView
         android:id="@+id/avatar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="116dp"
+        android:layout_height="100dp"
+        android:contentDescription="To Settings"
         app:layout_constraintBottom_toTopOf="@+id/view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/avatar"
-        android:contentDescription="To Settings Button" />
+        android:tint="@color/dark_grey"
+        app:srcCompat="@drawable/ic_baseline_person_24" />
 
     <View
         android:id="@+id/view"
@@ -87,8 +88,8 @@
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Toggle Connection"
-        app:backgroundTint="@color/orange"
+        android:text="Connect"
+        app:backgroundTint="#ffff0000"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"

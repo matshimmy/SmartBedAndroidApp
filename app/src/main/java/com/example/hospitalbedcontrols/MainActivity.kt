@@ -24,8 +24,7 @@ class MainActivity : AppCompatActivity() {
         )
 
         binding.controlsRecyclerView.setHasFixedSize(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
+        supportActionBar?.hide()
         binding.avatar.setOnClickListener { launchSettings() }
 
 //        binding.bottomNavigationView.setOnClickListener()
