@@ -4,9 +4,9 @@ import android.app.Application
 import android.bluetooth.BluetoothAdapter
 import android.bluetooth.BluetoothManager
 import android.content.Context
-import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.hospitalbedcontrols.ble.ScanViewModel
 
 
 class BluetoothViewModel(application: Application) : AndroidViewModel(application) {
@@ -16,17 +16,15 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             application.getSystemService(Context.BLUETOOTH_SERVICE) as BluetoothManager
         bluetoothManager.adapter
     }
+    private val scanViewModel = ScanViewModel(application)
 
     // Variable to hold the BLE connection status
     val connectionStatus = MutableLiveData<Boolean>()
 
     // Initialize and establish the BLE connection
     fun connectToBleDevice() {
-        if (!bluetoothAdapter.isEnabled) {
-            Log.e(TAG, "connectToBleDevice: Enable Bluetooth", )
-            return
-        }
         // Initialize the BLE connection and set the connection status
+        scanViewModel.startScan()
         connectionStatus.value = true
     }
 
