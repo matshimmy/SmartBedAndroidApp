@@ -47,7 +47,8 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
     }
 
     fun disconnectBleDevice() {
-        deviceViewModel.disconnect()
+        if (connectionStatus.value is ViewState.Connected)
+            deviceViewModel.disconnect()
     }
 
     fun isEnabled(): Boolean {
