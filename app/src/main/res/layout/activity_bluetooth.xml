@@ -82,7 +82,23 @@
         app:srcCompat="@drawable/bluetooth_icon" />
 
     <Button
-        android:id="@+id/toggle_connection"
+        android:id="@+id/disconnect_BT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Disconnect"
+        android:textColor="@color/white"
+        android:enabled="false"
+        app:backgroundTint="@color/dark_grey"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/connect_BT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/connect_BT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"

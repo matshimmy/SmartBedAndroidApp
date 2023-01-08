@@ -42,10 +42,12 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
         }
     }
 
-    // Initialize and establish the BLE connection
-    fun connectToBleDevice() {
-        // Initialize the BLE connection and set the connection status
+    fun connectBleDevice() {
         scanViewModel.startScan()
+    }
+
+    fun disconnectBleDevice() {
+        deviceViewModel.disconnect()
     }
 
     fun isEnabled(): Boolean {

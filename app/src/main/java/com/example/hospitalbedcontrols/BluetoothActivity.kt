@@ -57,32 +57,39 @@ class BluetoothActivity : AppCompatActivity() {
             }
         }
 
-        binding.toggleConnection.setOnClickListener {
+        binding.connectBT.setOnClickListener {
             if (isBLEok(this, viewModel))
-                viewModel.connectToBleDevice()
+                viewModel.connectBleDevice()
+        }
+        binding.disconnectBT.setOnClickListener {
+            if (isBLEok(this, viewModel))
+                viewModel.disconnectBleDevice()
         }
     }
 
     private fun allowScan() {
         if (viewModel.connectionStatus.value is ViewState.Connected) return connected()
-        binding.toggleConnection.text = "Connect"
-        binding.toggleConnection.setBackgroundColor(Color.RED)
-        binding.toggleConnection.isEnabled = true
-        binding.toggleConnection.setTextColor(Color.WHITE)
+        binding.connectBT.text = "Connect"
+        binding.connectBT.setBackgroundColor(Color.RED)
+        binding.connectBT.isEnabled = true
+        binding.connectBT.setTextColor(Color.WHITE)
+        binding.disconnectBT.isEnabled = false
     }
 
     private fun connected() {
-        binding.toggleConnection.setBackgroundColor(Color.GREEN)
-        binding.toggleConnection.isEnabled = false
-        binding.toggleConnection.text = "Connected"
-        binding.toggleConnection.setTextColor(Color.WHITE)
+        binding.connectBT.setBackgroundColor(Color.GREEN)
+        binding.connectBT.isEnabled = false
+        binding.connectBT.text = "Connected"
+        binding.connectBT.setTextColor(Color.WHITE)
+        binding.disconnectBT.isEnabled = true
     }
 
     private fun working(x: String) {
-        binding.toggleConnection.setBackgroundColor(Color.YELLOW)
-        binding.toggleConnection.isEnabled = false
-        binding.toggleConnection.text = x
-        binding.toggleConnection.setTextColor(Color.BLACK)
+        binding.connectBT.setBackgroundColor(Color.YELLOW)
+        binding.connectBT.isEnabled = false
+        binding.connectBT.text = x
+        binding.connectBT.setTextColor(Color.BLACK)
+        binding.disconnectBT.isEnabled = false
     }
 }
 
