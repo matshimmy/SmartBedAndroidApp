@@ -4,9 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/light_grey"
-    tools:context=".SettingsActivity"
-    >
+    tools:context=".MainFragment"
+    android:background="@color/light_grey">
 
 
     <TextView
@@ -55,61 +54,53 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <TextView
-        android:id="@+id/page_name"
+        android:id="@+id/page_name2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif-black"
-        android:text="Bluetooth"
+        android:text="Controls"
         android:textColor="@color/dark_grey"
         android:textSize="30sp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
-    <ImageView
-        android:id="@+id/bluetooth_icon"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/home_icon"
+        android:layout_width="32dp"
+        android:layout_height="32dp"
         android:layout_marginEnd="8dp"
         app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.571"
-        app:srcCompat="@drawable/bluetooth_icon" />
+        android:tint="@color/dark_grey"
+        app:srcCompat="@drawable/ic_baseline_home_24" />
 
-    <Button
-        android:id="@+id/disconnect_BT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Disconnect"
-        android:textColor="@color/white"
-        android:enabled="false"
-        app:backgroundTint="@color/dark_grey"
-        app:cornerRadius="50dp"
-        app:layout_constraintBottom_toTopOf="@+id/connect_BT"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
 
-    <Button
-        android:id="@+id/connect_BT"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginBottom="8dp"
-        android:text="Connect"
-        app:backgroundTint="#ffff0000"
-        app:cornerRadius="50dp"
+    <FrameLayout
+        android:id="@+id/frameLayout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="8dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/page_name2"
+        tools:context=".MainActivity">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/controls_recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:scrollbars="vertical"
+            app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+            />
+    </FrameLayout>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/bottomNavigationView"
@@ -118,12 +109,12 @@
 
         android:background="@color/white"
         app:itemIconTint="@android:color/darker_gray"
+
         app:itemTextColor="@android:color/darker_gray"
 
         app:layout_constraintBottom_toBottomOf="parent"
-
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/bluetooth_menu" />
+        app:menu="@menu/bottom_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

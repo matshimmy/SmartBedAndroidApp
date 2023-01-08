@@ -5,9 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/light_grey"
-    tools:context=".SettingsActivity"
-    >
-
+    tools:context=".BluetoothFragment">
 
     <TextView
         android:id="@+id/textView2"
@@ -62,34 +60,48 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:fontFamily="sans-serif-black"
-        android:text="Settings"
+        android:text="Bluetooth"
         android:textColor="@color/dark_grey"
         android:textSize="30sp"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <ImageView
-        android:id="@+id/settings_icon"
+        android:id="@+id/bluetooth_icon"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:layout_marginEnd="8dp"
-        app:layout_constraintBottom_toTopOf="@+id/frameLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view"
         app:layout_constraintVertical_bias="0.571"
-        app:srcCompat="@drawable/settings_icon" />
+        app:srcCompat="@drawable/bluetooth_icon" />
 
     <Button
-        android:id="@+id/LogOut"
+        android:id="@+id/disconnect_BT"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:text="Log Out"
-        app:backgroundTint="@color/orange"
+        android:text="Disconnect"
+        android:textColor="@color/white"
+        android:enabled="false"
+        app:backgroundTint="@color/dark_grey"
+        app:cornerRadius="50dp"
+        app:layout_constraintBottom_toTopOf="@+id/connect_BT"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/connect_BT"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginBottom="8dp"
+        android:text="Connect"
+        app:backgroundTint="#ffff0000"
         app:cornerRadius="50dp"
         app:layout_constraintBottom_toTopOf="@+id/bottomNavigationView"
         app:layout_constraintEnd_toEndOf="parent"
@@ -101,7 +113,6 @@
         android:layout_height="60dp"
 
         android:background="@color/white"
-
         app:itemIconTint="@android:color/darker_gray"
         app:itemTextColor="@android:color/darker_gray"
 
@@ -109,6 +120,6 @@
 
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:menu="@menu/settings_menu" />
+        app:menu="@menu/bluetooth_menu" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
