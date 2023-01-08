@@ -4,8 +4,10 @@ import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
+import com.example.hospitalbedcontrols.ble.ScanStatus
 import com.example.hospitalbedcontrols.ble.isBLEok
 import com.example.hospitalbedcontrols.databinding.ActivityBluetoothBinding
 import com.example.hospitalbedcontrols.model.BluetoothViewModel
@@ -24,16 +26,24 @@ class BluetoothActivity : AppCompatActivity() {
 
         viewModel = ViewModelProvider(this).get(BluetoothViewModel::class.java)
 
-        viewModel.connectionStatus.observe(this) { isConnected ->
-            if (isConnected) {
-                binding.toggleConnection.setBackgroundColor(Color.GREEN)
-                binding.toggleConnection.isEnabled = false
-                binding.toggleConnection.text = "Connected"
-                binding.toggleConnection.setTextColor(Color.WHITE)
-            } else {
-                binding.toggleConnection.text = "Connect"
-                binding.toggleConnection.setBackgroundColor(Color.RED)
-                binding.toggleConnection.isEnabled = true
+
+        if (viewModel.connectionStatus.value == true) connected()
+        viewModel.connectionStatus.observe(this) { status ->
+            when (status) {
+                true -> connected()
+                else -> allowScan()
+            }
+        }
+
+        viewModel.scanStatus.observe(this) { status ->
+            when (status) {
+                is ScanStatus.Scanning -> {
+                    binding.toggleConnection.setBackgroundColor(Color.YELLOW)
+                    binding.toggleConnection.isEnabled = false
+                    binding.toggleConnection.text = "Scanning..."
+                    binding.toggleConnection.setTextColor(Color.BLACK)
+                }
+                else -> allowScan()
             }
         }
 
@@ -54,4 +64,21 @@ class BluetoothActivity : AppCompatActivity() {
                 viewModel.connectToBleDevice()
         }
     }
+
+    private fun allowScan() {
+        if (viewModel.connectionStatus.value == true) return connected()
+        binding.toggleConnection.text = "Connect"
+        binding.toggleConnection.setBackgroundColor(Color.RED)
+        binding.toggleConnection.isEnabled = true
+        binding.toggleConnection.setTextColor(Color.WHITE)
+    }
+
+    private fun connected() {
+        binding.toggleConnection.setBackgroundColor(Color.GREEN)
+        binding.toggleConnection.isEnabled = false
+        binding.toggleConnection.text = "Connected"
+        binding.toggleConnection.setTextColor(Color.WHITE)
+    }
 }
+
+private const val TAG = "BluetoothActivity2"

@@ -3,6 +3,9 @@ package com.example.hospitalbedcontrols.ble
 import android.app.Application
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.asLiveData
 import com.juul.kable.Advertisement
 import com.juul.kable.Scanner
 import kotlinx.coroutines.*
@@ -21,9 +24,10 @@ sealed class ScanStatus {
 class ScanViewModel(application: Application) : AndroidViewModel(application) {
     private val scanner = Scanner()
     private val scanScope = CoroutineScope(Dispatchers.IO)
+    var advertisement = MutableLiveData<Advertisement?>()
 
     private val _status = MutableStateFlow<ScanStatus>(ScanStatus.Stopped)
-    val status = _status.asStateFlow()
+    val status: LiveData<ScanStatus> = _status.asLiveData()
 
     private val _advertisements = MutableStateFlow<List<Advertisement>>(emptyList())
     val advertisements = _advertisements.asStateFlow()
@@ -33,8 +37,9 @@ class ScanViewModel(application: Application) : AndroidViewModel(application) {
         _status.value = ScanStatus.Scanning
         scanScope.launch {
             Log.d(TAG, "startScan: starting")
+//            delay(2000L) //for testing
             withTimeoutOrNull(SCAN_DURATION_MILLIS) {
-                scanner
+                val advertisementIO = scanner
                     .advertisements
                     .catch { cause ->
                         _status.value = ScanStatus.Failed(cause.message ?: "Unknown error")
@@ -44,9 +49,14 @@ class ScanViewModel(application: Application) : AndroidViewModel(application) {
                             ScanStatus.Stopped
                     }
                     .filter { it.isDSD }
-                    .collect { advertisement ->
+                    .firstOrNull { advertisement ->
                         Log.d(TAG, advertisement.name.toString())
+                        true
                     }
+                // Set the value of the LiveData on the main thread
+                withContext(Dispatchers.Main) {
+                    advertisement.value = advertisementIO
+                }
             }
         }
     }
