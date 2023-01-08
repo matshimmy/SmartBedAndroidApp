@@ -7,8 +7,10 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
+import com.example.hospitalbedcontrols.ble.DeviceViewModel
 import com.example.hospitalbedcontrols.ble.ScanStatus
 import com.example.hospitalbedcontrols.ble.ScanViewModel
+import com.juul.kable.State
 
 
 class BluetoothViewModel(application: Application) : AndroidViewModel(application) {
@@ -19,10 +21,11 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
         bluetoothManager.adapter
     }
     private val scanViewModel = ScanViewModel(application)
+    lateinit var deviceViewModel: DeviceViewModel
 
-    // Variable to hold the BLE connection status
     val connectionStatus = MutableLiveData(false)
     val scanStatus = MutableLiveData<ScanStatus>(ScanStatus.Stopped)
+
     init {
         scanViewModel.status.observeForever { value ->
             scanStatus.value = value
@@ -31,6 +34,14 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
             if (value != null) {
 //                connectionStatus.value = true //for testing
                 Log.d(TAG, value.name.toString())
+                deviceViewModel = DeviceViewModel(application, value.address)
+                deviceViewModel.connect()
+                deviceViewModel.state.observeForever {
+                    when (it) {
+                        is State.Connected -> connectionStatus.value = true
+                        else -> connectionStatus.value = false
+                    }
+                }
             }
         }
     }

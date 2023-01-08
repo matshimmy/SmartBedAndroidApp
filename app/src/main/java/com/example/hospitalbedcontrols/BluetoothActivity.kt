@@ -28,15 +28,15 @@ class BluetoothActivity : AppCompatActivity() {
 
 
         if (viewModel.connectionStatus.value == true) connected()
-        viewModel.connectionStatus.observe(this) { status ->
-            when (status) {
+        viewModel.connectionStatus.observe(this) {
+            when (it) {
                 true -> connected()
                 else -> allowScan()
             }
         }
 
-        viewModel.scanStatus.observe(this) { status ->
-            when (status) {
+        viewModel.scanStatus.observe(this) {
+            when (it) {
                 is ScanStatus.Scanning -> {
                     binding.toggleConnection.setBackgroundColor(Color.YELLOW)
                     binding.toggleConnection.isEnabled = false

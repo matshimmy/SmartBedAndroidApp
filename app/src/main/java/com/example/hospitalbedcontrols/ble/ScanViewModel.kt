@@ -24,13 +24,11 @@ sealed class ScanStatus {
 class ScanViewModel(application: Application) : AndroidViewModel(application) {
     private val scanner = Scanner()
     private val scanScope = CoroutineScope(Dispatchers.IO)
-    var advertisement = MutableLiveData<Advertisement?>()
 
     private val _status = MutableStateFlow<ScanStatus>(ScanStatus.Stopped)
     val status: LiveData<ScanStatus> = _status.asLiveData()
+    var advertisement = MutableLiveData<Advertisement?>()
 
-    private val _advertisements = MutableStateFlow<List<Advertisement>>(emptyList())
-    val advertisements = _advertisements.asStateFlow()
 
     fun startScan() {
         if (_status.value == ScanStatus.Scanning) return // Scan already in progress
