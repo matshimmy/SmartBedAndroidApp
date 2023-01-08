@@ -7,15 +7,44 @@ import androidx.lifecycle.asLiveData
 import androidx.lifecycle.viewModelScope
 import com.juul.kable.*
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
 import kotlin.time.ExperimentalTime
 import kotlin.time.TimeMark
 
-class DeviceViewModel(application: Application, macAddress: String) : AndroidViewModel(application) {
+sealed class ViewState {
+    object Connecting : ViewState()
 
+    object Connected : ViewState()
+
+    object Disconnecting : ViewState()
+
+    object Disconnected : ViewState()
+}
+
+val ViewState.label: CharSequence
+    get() = when (this) {
+        ViewState.Connecting -> "Connecting"
+        is ViewState.Connected -> "Connected"
+        ViewState.Disconnecting -> "Disconnecting"
+        ViewState.Disconnected -> "Disconnected"
+    }
+
+class DeviceViewModel(application: Application, macAddress: String) : AndroidViewModel(application) {
     private val peripheral = viewModelScope.peripheral(macAddress)
-    val state = peripheral.state.asLiveData()
+
+    @OptIn(ExperimentalCoroutinesApi::class)
+    val viewState: Flow<ViewState> = peripheral.state.flatMapLatest { state ->
+        when (state) {
+            is State.Connecting -> flowOf(ViewState.Connecting)
+            State.Connected -> flowOf(ViewState.Connected)
+            State.Disconnecting -> flowOf(ViewState.Disconnecting)
+            is State.Disconnected -> flowOf(ViewState.Disconnected)
+        }
+    }
+
+    val state = viewState.asLiveData()
 
     //HM-10 Char
     private val DSDCharacteristic = characteristicOf(
@@ -81,8 +110,6 @@ class DeviceViewModel(application: Application, macAddress: String) : AndroidVie
             }
         }
     }
-
-
 }
 
 private const val TAG = "DeviceViewModel"

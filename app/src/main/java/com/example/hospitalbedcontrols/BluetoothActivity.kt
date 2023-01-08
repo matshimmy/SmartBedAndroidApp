@@ -8,7 +8,9 @@ import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.lifecycle.ViewModelProvider
 import com.example.hospitalbedcontrols.ble.ScanStatus
+import com.example.hospitalbedcontrols.ble.ViewState
 import com.example.hospitalbedcontrols.ble.isBLEok
+import com.example.hospitalbedcontrols.ble.label
 import com.example.hospitalbedcontrols.databinding.ActivityBluetoothBinding
 import com.example.hospitalbedcontrols.model.BluetoothViewModel
 
@@ -27,22 +29,18 @@ class BluetoothActivity : AppCompatActivity() {
         viewModel = ViewModelProvider(this).get(BluetoothViewModel::class.java)
 
 
-        if (viewModel.connectionStatus.value == true) connected()
+        if (viewModel.connectionStatus.value is ViewState.Connected) connected()
         viewModel.connectionStatus.observe(this) {
             when (it) {
-                true -> connected()
-                else -> allowScan()
+                ViewState.Connected -> connected()
+                ViewState.Disconnected -> allowScan()
+                else -> working(viewModel.connectionStatus.value?.label as String)
             }
         }
 
         viewModel.scanStatus.observe(this) {
             when (it) {
-                is ScanStatus.Scanning -> {
-                    binding.toggleConnection.setBackgroundColor(Color.YELLOW)
-                    binding.toggleConnection.isEnabled = false
-                    binding.toggleConnection.text = "Scanning..."
-                    binding.toggleConnection.setTextColor(Color.BLACK)
-                }
+                is ScanStatus.Scanning -> working("Scanning...")
                 else -> allowScan()
             }
         }
@@ -66,7 +64,7 @@ class BluetoothActivity : AppCompatActivity() {
     }
 
     private fun allowScan() {
-        if (viewModel.connectionStatus.value == true) return connected()
+        if (viewModel.connectionStatus.value is ViewState.Connected) return connected()
         binding.toggleConnection.text = "Connect"
         binding.toggleConnection.setBackgroundColor(Color.RED)
         binding.toggleConnection.isEnabled = true
@@ -78,6 +76,13 @@ class BluetoothActivity : AppCompatActivity() {
         binding.toggleConnection.isEnabled = false
         binding.toggleConnection.text = "Connected"
         binding.toggleConnection.setTextColor(Color.WHITE)
+    }
+
+    private fun working(x: String) {
+        binding.toggleConnection.setBackgroundColor(Color.YELLOW)
+        binding.toggleConnection.isEnabled = false
+        binding.toggleConnection.text = x
+        binding.toggleConnection.setTextColor(Color.BLACK)
     }
 }
 

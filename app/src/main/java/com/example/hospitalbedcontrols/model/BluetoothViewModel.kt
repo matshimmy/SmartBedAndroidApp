@@ -7,10 +7,7 @@ import android.content.Context
 import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import com.example.hospitalbedcontrols.ble.DeviceViewModel
-import com.example.hospitalbedcontrols.ble.ScanStatus
-import com.example.hospitalbedcontrols.ble.ScanViewModel
-import com.juul.kable.State
+import com.example.hospitalbedcontrols.ble.*
 
 
 class BluetoothViewModel(application: Application) : AndroidViewModel(application) {
@@ -23,13 +20,15 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
     private val scanViewModel = ScanViewModel(application)
     lateinit var deviceViewModel: DeviceViewModel
 
-    val connectionStatus = MutableLiveData(false)
+    val connectionStatus = MutableLiveData<ViewState>(ViewState.Disconnected)
     val scanStatus = MutableLiveData<ScanStatus>(ScanStatus.Stopped)
 
     init {
         scanViewModel.status.observeForever { value ->
             scanStatus.value = value
         }
+
+        //if peripheral found, connect to it and observe state
         scanViewModel.advertisement.observeForever { value ->
             if (value != null) {
 //                connectionStatus.value = true //for testing
@@ -37,10 +36,7 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
                 deviceViewModel = DeviceViewModel(application, value.address)
                 deviceViewModel.connect()
                 deviceViewModel.state.observeForever {
-                    when (it) {
-                        is State.Connected -> connectionStatus.value = true
-                        else -> connectionStatus.value = false
-                    }
+                    connectionStatus.value = it
                 }
             }
         }
