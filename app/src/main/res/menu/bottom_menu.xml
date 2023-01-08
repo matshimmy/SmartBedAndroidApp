@@ -5,17 +5,17 @@
 
     <item
         android:id="@+id/to_bluetooth"
-        android:icon="@drawable/bluetooth_icon"
+        android:icon="@drawable/ic_baseline_bluetooth_24"
         android:title="Bluetooth" />
 
     <item
         android:id="@+id/microphone_button"
-        android:icon="@drawable/mic"
+        android:icon="@drawable/ic_baseline_mic_24"
         android:title="Mic"
         />
 
     <item
         android:id="@+id/to_settings"
-        android:icon="@drawable/settings_icon"
+        android:icon="@drawable/ic_baseline_settings_24"
         android:title="Settings" />
 </menu>

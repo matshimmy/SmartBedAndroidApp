@@ -8,32 +8,22 @@ object ControlSource {
     val controls: List<Control> = listOf(
         Control(
             R.drawable.controlicon,
-            "Head Control"
-
+            "Head"
         ),
 
         Control(
             R.drawable.controlicon,
-            "Foot Control"
-
+            "Foot"
         ),
 
         Control(
             R.drawable.controlicon,
-            "Bed Control"
-
+            "Height"
         ),
 
         Control(
             R.drawable.controlicon,
-            "Trend Control"
-
-        ),
-
-        Control(
-            R.drawable.controlicon,
-            "Chair Control"
-
+            "Tilt"
         ),
     )
 }
