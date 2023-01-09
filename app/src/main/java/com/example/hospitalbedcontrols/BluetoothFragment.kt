@@ -27,7 +27,7 @@ class BluetoothFragment : Fragment(R.layout.fragment_bluetooth) {
         super.onViewCreated(view, savedInstanceState)
         binding = FragmentBluetoothBinding.bind(view)
 
-        viewModel = ViewModelProvider(activity as AppCompatActivity).get(BluetoothViewModel::class.java)
+        viewModel = ViewModelProvider(activity as AppCompatActivity)[BluetoothViewModel::class.java]
 
         if (viewModel.connectionStatus.value is ViewState.Connected) connected()
         viewModel.connectionStatus.observe(viewLifecycleOwner) {

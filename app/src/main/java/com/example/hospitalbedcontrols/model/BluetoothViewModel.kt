@@ -18,12 +18,13 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
         bluetoothManager.adapter
     }
     private val scanViewModel = ScanViewModel(application)
-    lateinit var deviceViewModel: DeviceViewModel
+    private var deviceViewModel: DeviceViewModel?
 
     val connectionStatus = MutableLiveData<ViewState>(ViewState.Disconnected)
     val scanStatus = MutableLiveData<ScanStatus>(ScanStatus.Stopped)
 
     init {
+        deviceViewModel = null
         scanViewModel.status.observeForever { value ->
             scanStatus.value = value
         }
@@ -34,8 +35,8 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
 //                connectionStatus.value = true //for testing
                 Log.d(TAG, value.name.toString())
                 deviceViewModel = DeviceViewModel(application, value.address)
-                deviceViewModel.connect()
-                deviceViewModel.state.observeForever {
+                deviceViewModel?.connect()
+                deviceViewModel?.state?.observeForever {
                     connectionStatus.value = it
                 }
             }
@@ -48,16 +49,18 @@ class BluetoothViewModel(application: Application) : AndroidViewModel(applicatio
 
     fun disconnectBleDevice() {
         if (connectionStatus.value is ViewState.Connected)
-            deviceViewModel.disconnect()
+            deviceViewModel?.disconnect()
     }
 
     fun isEnabled(): Boolean {
         return bluetoothAdapter.isEnabled
     }
 
-    // Perform a BLE write operation
-    fun writeBleCharacteristic(data: ByteArray) {
-        // Perform the BLE write operation
+    fun writeBle(data: ByteArray) {
+        if (deviceViewModel != null){
+            Log.d(TAG, "writeBle")
+            deviceViewModel?.writeData(data)
+        }
     }
 }
 

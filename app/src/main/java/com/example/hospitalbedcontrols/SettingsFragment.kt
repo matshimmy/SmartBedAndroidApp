@@ -26,7 +26,7 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
         binding = FragmentSettingsBinding.bind(view)
         firebaseAuth = FirebaseAuth.getInstance()
 
-        viewModel = ViewModelProvider(activity as AppCompatActivity).get(BluetoothViewModel::class.java)
+        viewModel = ViewModelProvider(activity as AppCompatActivity)[BluetoothViewModel::class.java]
 
         binding.LogOut.setOnClickListener {
             if (isBLEok(activity as AppCompatActivity, viewModel))

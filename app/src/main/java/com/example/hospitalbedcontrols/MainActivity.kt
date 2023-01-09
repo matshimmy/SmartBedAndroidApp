@@ -16,7 +16,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         supportActionBar?.hide()
-        viewModel = ViewModelProvider(this).get(BluetoothViewModel::class.java)
+        viewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
     }
 
     @RequiresApi(Build.VERSION_CODES.S)

@@ -10,8 +10,6 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import kotlin.time.ExperimentalTime
-import kotlin.time.TimeMark
 
 sealed class ViewState {
     object Connecting : ViewState()
@@ -52,14 +50,6 @@ class DeviceViewModel(application: Application, macAddress: String) : AndroidVie
         characteristic = "0000ffe1-0000-1000-8000-00805f9b34fb"
     )
 
-    private val writeData = byteArrayOf(0x54, 0x65, 0x73, 0x74)// ascii Test
-
-
-    @OptIn(ExperimentalTime::class)
-    private var startTime: TimeMark? = null
-
-
-
     fun connect() {
         viewModelScope.connect()
 
@@ -69,22 +59,22 @@ class DeviceViewModel(application: Application, macAddress: String) : AndroidVie
         viewModelScope.disconnect()
     }
 
-    fun writeData() {
-        viewModelScope.write()
+    fun writeData(data: ByteArray) {
+        viewModelScope.write(data)
     }
 
-    fun discoverData() {
-        if (peripheral.state.value != State.Connected){
-            Log.e(TAG, "discoverData: Cannot discover data without BLE connection")
-            return
-        }
-        peripheral.services?.forEach { service ->
-            Log.d(TAG, "service of peripheral: ${service.serviceUuid}")
-            service.characteristics.forEach { chstic ->
-                Log.d(TAG, "Characteristic id: ${chstic.characteristicUuid}")
-            }
-        }
-    }
+//    fun discoverData() {
+//        if (peripheral.state.value != State.Connected){
+//            Log.e(TAG, "discoverData: Cannot discover data without BLE connection")
+//            return
+//        }
+//        peripheral.services?.forEach { service ->
+//            Log.d(TAG, "service of peripheral: ${service.serviceUuid}")
+//            service.characteristics.forEach { chstic ->
+//                Log.d(TAG, "Characteristic id: ${chstic.characteristicUuid}")
+//            }
+//        }
+//    }
 
     private fun CoroutineScope.disconnect() {
         launch {
@@ -93,10 +83,12 @@ class DeviceViewModel(application: Application, macAddress: String) : AndroidVie
         }
     }
 
-    private fun CoroutineScope.write() {
-        launch {
+    private fun CoroutineScope.write(data: ByteArray) {
+        if (state.value is ViewState.Connected) {
             Log.d(TAG, "write")
-            peripheral.write(DSDCharacteristic, writeData, WriteType.WithoutResponse)
+            launch {
+                peripheral.write(DSDCharacteristic, data, WriteType.WithoutResponse)
+            }
         }
     }
 
