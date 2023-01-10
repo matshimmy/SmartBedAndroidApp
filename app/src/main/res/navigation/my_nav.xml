@@ -25,6 +25,9 @@
         <action
             android:id="@+id/navToMainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/navToBluetoothFragment"
+            app:destination="@id/bluetoothFragment" />
     </fragment>
     <fragment
         android:id="@+id/bluetoothFragment"
@@ -34,5 +37,8 @@
         <action
             android:id="@+id/navToMainFragment"
             app:destination="@id/mainFragment" />
+        <action
+            android:id="@+id/navToSettingsFragment"
+            app:destination="@id/settingsFragment" />
     </fragment>
 </navigation>

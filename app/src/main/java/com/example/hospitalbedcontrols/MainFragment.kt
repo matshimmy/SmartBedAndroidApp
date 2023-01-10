@@ -2,6 +2,7 @@ package com.example.hospitalbedcontrols
 
 import android.os.Bundle
 import android.view.View
+import android.view.animation.AnimationUtils
 import androidx.activity.OnBackPressedCallback
 import androidx.fragment.app.Fragment
 import androidx.navigation.Navigation
@@ -27,7 +28,6 @@ class MainFragment : Fragment(R.layout.fragment_main) {
         binding.controlsRecyclerView.adapter = ControlAdapter(context)
 
         binding.controlsRecyclerView.setHasFixedSize(true)
-        binding.avatar.setOnClickListener { Navigation.findNavController(view).navigate(R.id.navToSettingsFragment) }
 
         binding.bottomNavigationView.setOnItemSelectedListener {
             when (it.itemId) {

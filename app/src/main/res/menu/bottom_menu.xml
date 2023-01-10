@@ -9,10 +9,9 @@
         android:title="Bluetooth" />
 
     <item
-        android:id="@+id/microphone_button"
-        android:icon="@drawable/ic_baseline_mic_24"
-        android:title="Mic"
-        />
+        android:id="@+id/to_home"
+        android:icon="@drawable/ic_baseline_home_24"
+        android:title="Home" />
 
     <item
         android:id="@+id/to_settings"

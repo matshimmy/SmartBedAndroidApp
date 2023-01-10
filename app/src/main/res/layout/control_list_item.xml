@@ -4,9 +4,11 @@
 <com.google.android.material.card.MaterialCardView
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_margin="8dp"
+    android:background="@drawable/rounded_corner"
     app:cardElevation="4dp"
     app:cardCornerRadius="4dp">
 
@@ -21,6 +23,10 @@
             android:contentDescription="Turn control down button"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_arrow_downward_24"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/dark_grey"
+            android:stateListAnimator="@animator/button_press"
+            app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -55,6 +61,10 @@
             android:contentDescription="Turn control up button"
             android:scaleType="fitCenter"
             android:src="@drawable/ic_baseline_arrow_upward_24"
+            android:background="@drawable/rounded_corner"
+            android:backgroundTint="@color/dark_grey"
+            android:stateListAnimator="@animator/button_press"
+            app:tint="@color/white"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent" />

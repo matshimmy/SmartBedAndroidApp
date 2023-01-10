@@ -43,6 +43,11 @@ class SettingsFragment : Fragment(R.layout.fragment_settings) {
                     true
                 }
 
+                R.id.to_bluetooth -> {
+                    Navigation.findNavController(view).navigate(R.id.navToBluetoothFragment)
+                    true
+                }
+
                 else -> false
             }
         }
