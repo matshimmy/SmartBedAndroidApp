@@ -18,7 +18,7 @@ private fun bluetoothEnable(app: AppCompatActivity, vm: BluetoothViewModel): Boo
 
 @RequiresApi(Build.VERSION_CODES.S)
 fun isBLEok(app: AppCompatActivity, vm: BluetoothViewModel): Boolean {
-    var permissions = Permissions(app)
+    val permissions = BTPermissions(app)
     if (!permissions.checkPermissions()) return false
     if (!vm.isEnabled()) {
         bluetoothEnable(app, vm)

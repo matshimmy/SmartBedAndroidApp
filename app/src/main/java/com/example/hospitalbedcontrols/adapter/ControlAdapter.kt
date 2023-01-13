@@ -1,6 +1,7 @@
 package com.example.hospitalbedcontrols.adapter
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,13 +9,15 @@ import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.AppCompatImageButton
+import androidx.lifecycle.LifecycleOwner
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.RecyclerView
 import com.example.hospitalbedcontrols.R
 import com.example.hospitalbedcontrols.data.ControlSource
 import com.example.hospitalbedcontrols.model.BluetoothViewModel
 
-class ControlAdapter(private val context: Context?) :
+class ControlAdapter(private val context: Context?, private val result: MutableLiveData<String>) :
     RecyclerView.Adapter<ControlAdapter.ControlViewHolder>() {
     private val data = ControlSource.controls
 
@@ -41,8 +44,33 @@ class ControlAdapter(private val context: Context?) :
         val controlItem = data[position]
         holder.controlImage.setImageResource(controlItem.imageResourceId)
         holder.controlName.text = controlItem.name
-        holder.downBtn.setOnClickListener { viewModel.writeBle(controlItem.downBtn) }
-        holder.upBtn.setOnClickListener { viewModel.writeBle(controlItem.upBtn) }
+        holder.downBtn.setOnClickListener {
+            Log.d(TAG, "clicktestDown")
+            viewModel.writeBle(controlItem.downBtn)
+        }
+        holder.upBtn.setOnClickListener {
+            Log.d(TAG, "clicktestUp")
+            viewModel.writeBle(controlItem.upBtn)
+        }
+        result.observe(context as LifecycleOwner) {
+            val words = it.split(" ")
+            if (words.size != 4)
+                return@observe
+            if (words[0].toRegex(RegexOption.IGNORE_CASE)
+                    .containsMatchIn(controlItem.name)
+            ) { //matches voice to control
+                if (words[1].toRegex(RegexOption.IGNORE_CASE).containsMatchIn("up")) { //up button
+                    Log.d(TAG, "up " + words[2])
+                    holder.upBtn.performClick()
+                } else { //down button
+                    Log.d(TAG, "down " + words[2])
+                    holder.downBtn.performClick()
+
+                }
+            }
+        }
     }
 
 }
+
+const val TAG = "ControlAdapter"

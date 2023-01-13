@@ -10,7 +10,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 
-class Permissions (val context: Context) {
+class BTPermissions (val context: Context) {
 
     private val isLocationPermissionGranted
         get() = context.hasPermission(Manifest.permission.ACCESS_FINE_LOCATION)
