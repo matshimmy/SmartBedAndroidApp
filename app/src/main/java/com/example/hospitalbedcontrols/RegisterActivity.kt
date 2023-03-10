@@ -18,13 +18,12 @@ class RegisterActivity : AppCompatActivity() {
 
         binding = ActivityRegisterBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        supportActionBar?.hide()
 
         firebaseAuth = FirebaseAuth.getInstance()
 
         binding.textView.setOnClickListener{
-            val intent = Intent(this, LoginActivity::class.java)
-            startActivity(intent)
-
+            finish()
         }
 
         binding.registerButton.setOnClickListener{

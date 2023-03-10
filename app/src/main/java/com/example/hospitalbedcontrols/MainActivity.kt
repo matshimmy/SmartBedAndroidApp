@@ -1,63 +1,28 @@
 package com.example.hospitalbedcontrols
 
-import android.content.Intent
+import android.os.Build
 import android.os.Bundle
+import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
-import com.example.hospitalbedcontrols.adapter.ControlAdapter
-import com.example.hospitalbedcontrols.databinding.ActivityMainBinding
-
+import androidx.lifecycle.ViewModelProvider
+import com.example.hospitalbedcontrols.ble.isBLEok
+import com.example.hospitalbedcontrols.model.BluetoothViewModel
 
 class MainActivity : AppCompatActivity() {
 
-    private lateinit var binding: ActivityMainBinding
-    private lateinit var whichPage: Intent
+    private lateinit var viewModel: BluetoothViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
-        binding = ActivityMainBinding.inflate(layoutInflater)
-        setContentView(binding.root)
-
-
-        binding.controlsRecyclerView.adapter = ControlAdapter(
-            applicationContext
-        )
-
-        binding.controlsRecyclerView.setHasFixedSize(true)
-        supportActionBar?.setDisplayHomeAsUpEnabled(true)
-
-        binding.avatar.setOnClickListener { launchSettings() }
-
-//        binding.bottomNavigationView.setOnClickListener()
-//        val bottomNavigationView: BottomNavigationView = binding.bottomNavigationView
-
-        binding.bottomNavigationView.setOnItemSelectedListener {
-            when (it.itemId) {
-                R.id.to_bluetooth -> {
-                    launchBluetooth()
-                    true
-                }
-
-                R.id.to_settings -> {
-                    launchSettings()
-                    true
-                }
-
-                else -> false
-            }
-        }
+        setContentView(R.layout.activity_main)
+        supportActionBar?.hide()
+        viewModel = ViewModelProvider(this)[BluetoothViewModel::class.java]
     }
 
-    private fun launchBluetooth() {
-        whichPage = Intent(this, BluetoothActivity::class.java)
-        startActivity(whichPage)
+    @RequiresApi(Build.VERSION_CODES.S)
+    override fun finish() {
+        super.finish()
+        if (isBLEok(this, viewModel))
+            viewModel.disconnectBleDevice()
     }
-
-    private fun launchSettings() {
-        whichPage = Intent(this, SettingsActivity::class.java)
-        startActivity(whichPage)
-    }
-
-
-
 }
