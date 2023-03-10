@@ -3,6 +3,7 @@ package com.example.hospitalbedcontrols
 import android.graphics.Color
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
@@ -69,6 +70,24 @@ class BluetoothFragment : Fragment(R.layout.fragment_bluetooth) {
             if (isBLEok(activity as AppCompatActivity, viewModel))
                 viewModel.disconnectBleDevice()
         }
+        binding.connectWifi.setOnClickListener {
+            var ssid = String(byteArrayOf(0x00) + binding.ssidText.text.toString().toByteArray() + byteArrayOf(0x00))
+            Log.d(TAG, ssid)
+            var sspass = String(byteArrayOf(0x01) + binding.sspassText.text.toString().toByteArray() + byteArrayOf(0x01))
+            Log.d(TAG, sspass)
+            if (isBLEok(activity as AppCompatActivity, viewModel)) {
+                if (binding.ssidText.text?.length!! > 0)
+                    viewModel.writeBle(
+                        byteArrayOf(0x00) + binding.ssidText.text.toString()
+                            .toByteArray() + byteArrayOf(0x00)
+                    )
+                if (binding.sspassText.text?.length!! > 0)
+                    viewModel.writeBle(
+                        byteArrayOf(0x01) + binding.sspassText.text.toString()
+                            .toByteArray() + byteArrayOf(0x01)
+                    )
+            }
+        }
     }
 
 
@@ -97,3 +116,5 @@ class BluetoothFragment : Fragment(R.layout.fragment_bluetooth) {
         binding.disconnectBT.isEnabled = false
     }
 }
+
+private const val TAG = "BluetoothFragment"
