@@ -1,8 +1,10 @@
 package com.example.hospitalbedcontrols.adapter
 
+import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
@@ -40,18 +42,43 @@ class ControlAdapter(private val context: Context?, private val result: MutableL
 
     override fun getItemCount(): Int = data.size
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onBindViewHolder(holder: ControlViewHolder, position: Int) {
         val controlItem = data[position]
         holder.controlImage.setImageResource(controlItem.imageResourceId)
         holder.controlName.text = controlItem.name
-        holder.downBtn.setOnClickListener {
-            Log.d(TAG, "clicktestDown")
-            viewModel.writeBle(controlItem.downBtn)
+        holder.downBtn.setOnLongClickListener {
+            viewModel.writeBle(controlItem.downBtnPress)
+            Log.d(TAG, "down Button pressed")
+            true
         }
-        holder.upBtn.setOnClickListener {
-            Log.d(TAG, "clicktestUp")
-            viewModel.writeBle(controlItem.upBtn)
+
+        holder.downBtn.setOnTouchListener{view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_UP -> {
+                    // Perform action on button release
+                    viewModel.writeBle(byteArrayOf(0x03))
+                    Log.d(TAG, "down Button released")
+                }
+            }
+            view.onTouchEvent(motionEvent)
         }
+        holder.upBtn.setOnLongClickListener {
+            viewModel.writeBle(controlItem.upBtnPress)
+            Log.d(TAG, "up Button pressed")
+            true
+        }
+        holder.upBtn.setOnTouchListener{view, motionEvent ->
+            when (motionEvent.action) {
+                MotionEvent.ACTION_UP -> {
+                    // Perform action on button release
+                    viewModel.writeBle(byteArrayOf(0x03))
+                    Log.d(TAG, "up Button released")
+                }
+            }
+            view.onTouchEvent(motionEvent)
+        }
+
         result.observe(context as LifecycleOwner) {
             val words = it.split(" ")
             if (words.size != 4)

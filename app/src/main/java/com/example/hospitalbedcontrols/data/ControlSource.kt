@@ -11,29 +11,29 @@ object ControlSource {
         Control(
             R.drawable.controlicon,
             "Head",
-            writeData,
-            writeData
+            byteArrayOf(0x02),
+            byteArrayOf(0x04),
         ),
 
         Control(
             R.drawable.controlicon,
             "Foot",
-            writeData,
-            writeData
+            byteArrayOf(0x05),
+            byteArrayOf(0x06),
         ),
 
         Control(
             R.drawable.controlicon,
             "Height",
-            writeData,
-            writeData
+            byteArrayOf(0x07),
+            byteArrayOf(0x08),
         ),
 
         Control(
             R.drawable.controlicon,
             "Tilt",
-            writeData,
-            writeData
+            byteArrayOf(0x09),
+            byteArrayOf(0x10),
         ),
     )
 }

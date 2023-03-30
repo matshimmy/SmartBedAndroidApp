@@ -5,6 +5,6 @@ import androidx.annotation.DrawableRes
 data class Control(
     @DrawableRes val imageResourceId: Int,
     val name: String,
-    val upBtn: ByteArray,
-    val downBtn: ByteArray
+    val upBtnPress: ByteArray,
+    val downBtnPress: ByteArray,
     )
